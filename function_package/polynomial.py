@@ -1,5 +1,6 @@
 from .abstract_function import AbstractFunction
 from .function_composition import CompositeFunction
+from .operations import OperationType
 
 
 class Polynomial(AbstractFunction):
@@ -14,7 +15,7 @@ class Polynomial(AbstractFunction):
 
     def __add__(self, other):
         if not isinstance(other, Polynomial):
-            return CompositeFunction(self, other, "add")
+            return CompositeFunction(self, other, OperationType.ADD)
 
         max_len = max(len(self.coefficients), len(other.coefficients))
         new_coefficients = [0] * max_len
@@ -28,7 +29,7 @@ class Polynomial(AbstractFunction):
 
     def __sub__(self, other):
         if not isinstance(other, Polynomial):
-            return CompositeFunction(self, other, "sub")
+            return CompositeFunction(self, other, OperationType.SUB)
 
         max_len = max(len(self.coefficients), len(other.coefficients))
         new_coefficients = [0] * max_len
@@ -42,7 +43,7 @@ class Polynomial(AbstractFunction):
 
     def __mul__(self, other):
         if not isinstance(other, Polynomial):
-            return CompositeFunction(self, other, "mul")
+            return CompositeFunction(self, other, OperationType.MUL)
 
         new_coefficients = [0] * (len(self.coefficients) + len(other.coefficients) - 1)
 
