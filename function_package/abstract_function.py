@@ -16,21 +16,21 @@ class AbstractFunction(ABC):
         pass
 
     def __add__(self, other):
-        from .function_composition import CompositeFunction
+        from .function_combination import CompositeFunction
         return CompositeFunction(self, other, OperationType.ADD)
 
     def __sub__(self, other):
-        from .function_composition import CompositeFunction
+        from .function_combination import CompositeFunction
         return CompositeFunction(self, other, OperationType.SUB)
 
     def __mul__(self, other):
-        from .function_composition import CompositeFunction
+        from .function_combination import CompositeFunction
         return CompositeFunction(self, other, OperationType.MUL)
 
     def __truediv__(self, other):
-        from .function_composition import CompositeFunction
+        from .function_combination import CompositeFunction
         return CompositeFunction(self, other, OperationType.DIV)
 
     def apply(self, func):
-        from .function_application import FunctionApplication
+        from .function_composition import FunctionApplication
         return FunctionApplication(self, func)

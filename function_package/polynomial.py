@@ -1,5 +1,5 @@
 from .abstract_function import AbstractFunction
-from .function_composition import CompositeFunction
+from .function_combination import CompositeFunction
 from .operations import OperationType
 
 

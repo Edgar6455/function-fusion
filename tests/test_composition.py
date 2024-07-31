@@ -5,129 +5,81 @@ from function_package import *
 
 
 class TestComposition(unittest.TestCase):
-    def test_add(self):
-        two = Polynomial(2)
-        cos = Cos()
-        pi6 = math.pi / 6
-
-        p1_add_cos = two + cos
-
-        expected = 2 + math.cos(pi6)
-
-        self.assertAlmostEqual(p1_add_cos(pi6), expected)
-
-    def test_sub(self):
-        _2_add_3x = Polynomial(2, 3)
-        cos = Cos()
-        pi4 = math.pi / 4
-
-        cos_sub_p1 = cos - _2_add_3x
-
-        expected = math.cos(pi4) - (2 + 3*pi4)
-
-        self.assertAlmostEqual(cos_sub_p1(pi4), expected)
-
-    def test_mul(self):
+    def test_apply_1(self):
         sin = Sin()
         cos = Cos()
-        two = Polynomial(2)
 
-        _2sinxcosx = two * sin * cos
+        # cos(2x) == (cosx)^2 - (sinx)^2
 
         _2x = Polynomial(0, 2)
-        sin2x = sin.apply(_2x)
+        cos2x = cos.apply(_2x)
 
+        cosx_sq = cos * cos
+        sinx_sq = sin * sin
+
+        expected = cosx_sq - sinx_sq
         pi3 = math.pi / 3
-        self.assertAlmostEqual(_2sinxcosx(pi3), sin2x(pi3))
 
-    def test_div(self):
+        self.assertAlmostEqual(cos2x(pi3), expected(pi3))
+
+    def test_apply_2(self):
         sin = Sin()
         cos = Cos()
 
-        ctg = cos / sin
-        self.assertAlmostEqual(ctg(math.pi/4), 1.0)
+        # (sin(x/2))^2 == (1 - cosx) / 2
 
-    def test_derivative_add(self):
+        x2 = Polynomial(0, 0.5)
+        sinx2 = sin.apply(x2)
+        sinx2_sq = sinx2 * sinx2
+
+        one = Polynomial(1)
+        two = Polynomial(2)
+        one_minus_cosx = one - cos
+
+        expected = one_minus_cosx / two
+
+        pi6 = math.pi / 6
+
+        self.assertAlmostEqual(sinx2_sq(pi6), expected(pi6))
+
+    def test_derivative(self):
         sin = Sin()
         cos = Cos()
 
-        sin_derivative = sin.derivative()
-        cos_derivative = cos.derivative()
+        # (sin(x^2))' == (cos(x^2)) * (2x)
 
-        sin_add_cos = sin + cos
-        sin_add_cos_derivative = sin_add_cos.derivative()
+        x2 = Polynomial(0, 0, 1)
+        sinx2 = sin.apply(x2)
+        sinx2_derivative = sinx2.derivative()
+
+        cosx2 = cos.apply(x2)
+        _2x = Polynomial(0, 2)
+
+        expected = cosx2 * _2x
+        self.assertEqual(str(sinx2_derivative), str(expected))
 
         pi4 = math.pi / 4
+        self.assertAlmostEqual(sinx2_derivative(pi4), expected(pi4))
 
-        self.assertAlmostEqual(sin_add_cos_derivative(pi4), sin_derivative(pi4) + cos_derivative(pi4))
-
-    def test_derivative_sub(self):
+    def test_str_1(self):
         sin = Sin()
         cos = Cos()
 
-        sin_derivative = sin.derivative()
-        cos_derivative = cos.derivative()
+        sincosx = sin.apply(cos)
 
-        sin_sub_cos = sin - cos
-        sin_sub_cos_derivative = sin_sub_cos.derivative()
+        expected = "sin(cos(x))"
+        self.assertEqual(str(sincosx), expected)
 
-        pi6 = math.pi / 6
-
-        self.assertAlmostEqual(sin_sub_cos_derivative(pi6), sin_derivative(pi6) - cos_derivative(pi6))
-
-    def test_derivative_mul(self):
+    def test_str_2(self):
         sin = Sin()
         cos = Cos()
 
-        sin_derivative = sin.derivative()
-        cos_derivative = cos.derivative()
+        cossinx = cos.apply(sin)
+        _1_minus_x2 = Polynomial(1, 0, -2)
+        cossin_1_minus_x2 = cossinx.apply(_1_minus_x2)
 
-        sin_mul_cos = sin * cos
-        sin_mul_cos_derivative = sin_mul_cos.derivative()
-
-        pi3 = math.pi / 3
-
-        expected = sin_derivative(pi3) * cos(pi3) + cos_derivative(pi3) * sin(pi3)
-
-        self.assertAlmostEqual(sin_mul_cos_derivative(pi3), expected)
-
-    def test_derivative_div(self):
-        sin = Sin()
-        cos = Cos()
-
-        sin_derivative = sin.derivative()
-        cos_derivative = cos.derivative()
-
-        ctg = cos / sin
-        ctg_derivative = ctg.derivative()
-
-        pi6 = math.pi / 6
-
-        numerator = cos_derivative(pi6) * sin(pi6) - cos(pi6) * sin_derivative(pi6)
-        denominator = sin(pi6) * sin(pi6)
-        expected = numerator / denominator
-
-        self.assertAlmostEqual(ctg_derivative(pi6), expected)
-
-    def test_str_add(self):
-        sin = Sin()
-        cos = Cos()
-
-        sin_add_cos = sin + cos
-
-        expected = "(" + str(sin) + ") + (" + str(cos) + ")"
-
-        self.assertEqual(str(sin_add_cos), expected)
-
-    def test_str_div(self):
-        p1 = Polynomial(2, 3, 4)
-        p2 = Polynomial(1, 4, 2)
-
-        p3 = p1 / p2
-
-        expected = "(" + str(p1) + ") / (" + str(p2) + ")"
-
-        self.assertEqual(str(p3), expected)
+        expected = "cos(sin(1 - 2x^2))"
+        self.assertEqual(str(cossin_1_minus_x2), expected)
 
 
 if __name__ == '__main__':
