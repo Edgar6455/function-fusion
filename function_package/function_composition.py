@@ -29,9 +29,10 @@ class CompositeFunction(AbstractFunction):
             denominator = self.f2 * self.f2
             return numerator / denominator
 
-    def __str__(self, inner=None):
-        f1_str = self.f1.__str__(inner)
-        f2_str = self.f2.__str__(inner)
+    def __str__(self):
+        f1_str = str(self.f1)
+        f2_str = str(self.f2)
+
         if self.operation == 'add':
             return f"({f1_str}) + ({f2_str})"
         elif self.operation == 'sub':

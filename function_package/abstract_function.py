@@ -11,7 +11,7 @@ class AbstractFunction(ABC):
         pass
 
     @abstractmethod
-    def __str__(self, inner=None):
+    def __str__(self):
         pass
 
     def __add__(self, other):

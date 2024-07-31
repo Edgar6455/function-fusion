@@ -11,10 +11,13 @@ class Sin(AbstractFunction):
     def derivative(self):
         return Cos()
 
-    def __str__(self, inner=None):
+    def _get_string(self, inner=None):
         if inner:
             return f"sin({str(inner)})"
         return "sin(x)"
+
+    def __str__(self):
+        return self._get_string()
 
 
 class Cos(AbstractFunction):
@@ -24,7 +27,10 @@ class Cos(AbstractFunction):
     def derivative(self):
         return Polynomial(-1) * Sin()
 
-    def __str__(self, inner=None):
+    def _get_string(self, inner=None):
         if inner:
             return f"cos({str(inner)})"
         return "cos(x)"
+
+    def __str__(self):
+        return self._get_string()

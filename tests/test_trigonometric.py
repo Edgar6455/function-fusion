@@ -36,7 +36,7 @@ class TestSin(unittest.TestCase):
 
         expected = "sin(cos(x))"
 
-        self.assertEqual(sin.__str__(cos), expected)
+        self.assertEqual(str(sin.apply(cos)), expected)
 
 
 class TestCos(unittest.TestCase):
@@ -72,7 +72,7 @@ class TestCos(unittest.TestCase):
 
         expected = "cos(sin(x))"
 
-        self.assertEqual(cos.__str__(sin), expected)
+        self.assertEqual(str(cos.apply(sin)), expected)
 
 
 if __name__ == '__main__':

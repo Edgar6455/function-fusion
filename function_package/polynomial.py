@@ -59,7 +59,7 @@ class Polynomial(AbstractFunction):
         derivative_coefficients = [coeff * power for power, coeff in enumerate(self.coefficients) if power > 0]
         return Polynomial(*derivative_coefficients)
 
-    def __str__(self, inner=None):
+    def _get_string(self, inner=None):
         if not any(self.coefficients):
             return "0"
 
@@ -90,3 +90,6 @@ class Polynomial(AbstractFunction):
                 result += " "
 
         return result
+
+    def __str__(self):
+        return self._get_string()
